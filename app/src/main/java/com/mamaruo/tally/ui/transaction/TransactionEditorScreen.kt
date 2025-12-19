@@ -3,7 +3,6 @@ package com.mamaruo.tally.ui.transaction
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -58,7 +57,6 @@ import com.mamaruo.tally.data.model.Category
 import com.mamaruo.tally.data.model.TransactionType
 import com.mamaruo.tally.ui.util.IconRegistry
 import java.time.Instant
-import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -72,14 +70,14 @@ fun TransactionEditorScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     var showDatePicker by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-    
+
     // 处理保存/删除完成后返回
     LaunchedEffect(uiState.isSaved, uiState.isDeleted) {
         if (uiState.isSaved || uiState.isDeleted) {
             onNavigateBack()
         }
     }
-    
+
     // 显示错误消息
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let {
@@ -87,12 +85,12 @@ fun TransactionEditorScreen(
             viewModel.clearError()
         }
     }
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { 
-                    Text(if (uiState.isEditMode) "编辑交易" else "新增交易") 
+                title = {
+                    Text(if (uiState.isEditMode) "编辑交易" else "新增交易")
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
@@ -152,7 +150,7 @@ fun TransactionEditorScreen(
                     )
                 )
             }
-            
+
             // 金额输入
             OutlinedTextField(
                 value = uiState.amountText,
@@ -163,7 +161,7 @@ fun TransactionEditorScreen(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-            
+
             // 日期选择
             val dateFormatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日")
             OutlinedTextField(
@@ -183,7 +181,7 @@ fun TransactionEditorScreen(
                     .fillMaxWidth()
                     .clickable { showDatePicker = true }
             )
-            
+
             // 分类选择
             Text(
                 text = "选择分类",
@@ -209,7 +207,7 @@ fun TransactionEditorScreen(
                     }
                 }
             }
-            
+
             // 备注输入
             OutlinedTextField(
                 value = uiState.note,
@@ -219,9 +217,9 @@ fun TransactionEditorScreen(
                 minLines = 2,
                 maxLines = 4
             )
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             // 保存按钮
             Button(
                 onClick = viewModel::save,
@@ -232,7 +230,7 @@ fun TransactionEditorScreen(
             }
         }
     }
-    
+
     // 日期选择器对话框
     if (showDatePicker) {
         val datePickerState = rememberDatePickerState(
@@ -241,7 +239,7 @@ fun TransactionEditorScreen(
                 .toInstant()
                 .toEpochMilli()
         )
-        
+
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
             confirmButton = {
@@ -268,7 +266,7 @@ fun TransactionEditorScreen(
             DatePicker(state = datePickerState)
         }
     }
-    
+
     // 删除确认对话框
     if (showDeleteDialog) {
         AlertDialog(

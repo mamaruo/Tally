@@ -6,6 +6,7 @@ package com.mamaruo.tally.data.model
 enum class TransactionType {
     /** 收入 */
     INCOME,
+
     /** 支出 */
     EXPENSE
 }

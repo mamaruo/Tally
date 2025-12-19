@@ -38,7 +38,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
  * 图标注册表，维护 iconKey 到 ImageVector 的映射
  */
 object IconRegistry {
-    
+
     private val iconMap: Map<String, ImageVector> = mapOf(
         // 生活消费 (12)
         "Restaurant" to Icons.Filled.Restaurant,        // 餐饮
@@ -53,7 +53,7 @@ object IconRegistry {
         "MedicalServices" to Icons.Filled.MedicalServices, // 医疗/药品
         "SportsEsports" to Icons.Filled.SportsEsports,  // 娱乐/游戏
         "Movie" to Icons.Filled.Movie,                  // 电影/影音
-        
+
         // 财务收支 (8)
         "AttachMoney" to Icons.Filled.AttachMoney,      // 现金/通用收入
         "AccountBalance" to Icons.Filled.AccountBalance, // 银行/账户
@@ -63,7 +63,7 @@ object IconRegistry {
         "TrendingDown" to Icons.Filled.TrendingDown,    // 亏损/减少
         "Payments" to Icons.Filled.Payments,            // 账单/付款
         "ReceiptLong" to Icons.Filled.ReceiptLong,      // 报销/单据
-        
+
         // 工作学习 (6)
         "Work" to Icons.Filled.Work,                    // 工资/工作
         "BusinessCenter" to Icons.Filled.BusinessCenter, // 商务/办公
@@ -71,17 +71,17 @@ object IconRegistry {
         "MenuBook" to Icons.Filled.MenuBook,            // 书籍/资料
         "LaptopMac" to Icons.Filled.LaptopMac,          // 设备/数码
         "Build" to Icons.Filled.Build,                  // 维修/工具
-        
+
         // 其他 (4)
         "Flight" to Icons.Filled.Flight,                // 旅行/机票
         "Pets" to Icons.Filled.Pets,                    // 宠物
         "CardGiftcard" to Icons.Filled.CardGiftcard,    // 礼品/红包
         "Celebration" to Icons.Filled.Celebration,      // 节日/庆典
-        
+
         // 额外（用于默认分类）
         "PhoneAndroid" to Icons.Filled.PhoneAndroid     // 通讯
     )
-    
+
     /**
      * 根据 iconKey 获取对应的 ImageVector
      * 如果找不到则返回默认图标
@@ -89,14 +89,14 @@ object IconRegistry {
     fun getIcon(iconKey: String): ImageVector {
         return iconMap[iconKey] ?: Icons.Filled.AttachMoney
     }
-    
+
     /**
      * 获取所有可用的图标键
      */
     fun getAllIconKeys(): List<String> {
         return iconMap.keys.toList()
     }
-    
+
     /**
      * 获取所有图标（键值对）
      */

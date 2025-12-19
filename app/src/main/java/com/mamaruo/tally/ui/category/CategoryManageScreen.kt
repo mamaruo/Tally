@@ -43,7 +43,7 @@ fun CategoryManageScreen(
     viewModel: CategoryManageViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -90,8 +90,8 @@ fun CategoryManageScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 // 支出分类
-                val expenseCategories = uiState.categories.filter { 
-                    it.type == TransactionType.EXPENSE 
+                val expenseCategories = uiState.categories.filter {
+                    it.type == TransactionType.EXPENSE
                 }
                 if (expenseCategories.isNotEmpty()) {
                     item {
@@ -106,10 +106,10 @@ fun CategoryManageScreen(
                         CategoryItem(category = category)
                     }
                 }
-                
+
                 // 收入分类
-                val incomeCategories = uiState.categories.filter { 
-                    it.type == TransactionType.INCOME 
+                val incomeCategories = uiState.categories.filter {
+                    it.type == TransactionType.INCOME
                 }
                 if (incomeCategories.isNotEmpty()) {
                     item {

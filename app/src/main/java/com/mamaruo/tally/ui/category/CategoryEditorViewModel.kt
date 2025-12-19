@@ -32,30 +32,30 @@ data class CategoryEditorUiState(
 class CategoryEditorViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository
 ) : ViewModel() {
-    
+
     private val _uiState = MutableStateFlow(CategoryEditorUiState())
     val uiState: StateFlow<CategoryEditorUiState> = _uiState.asStateFlow()
-    
+
     fun onNameChanged(name: String) {
         _uiState.update { it.copy(name = name) }
     }
-    
+
     fun onTypeChanged(type: TransactionType) {
         _uiState.update { it.copy(type = type) }
     }
-    
+
     fun onIconSelected(iconKey: String) {
         _uiState.update { it.copy(selectedIconKey = iconKey) }
     }
-    
+
     fun save() {
         val state = _uiState.value
-        
+
         if (state.name.isBlank()) {
             _uiState.update { it.copy(errorMessage = "请输入分类名称") }
             return
         }
-        
+
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
@@ -68,11 +68,16 @@ class CategoryEditorViewModel @Inject constructor(
                 categoryRepository.insertCategory(category)
                 _uiState.update { it.copy(isLoading = false, isSaved = true) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, errorMessage = "保存失败: ${e.message}") }
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = "保存失败: ${e.message}"
+                    )
+                }
             }
         }
     }
-    
+
     fun clearError() {
         _uiState.update { it.copy(errorMessage = null) }
     }

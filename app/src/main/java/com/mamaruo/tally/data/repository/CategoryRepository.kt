@@ -11,19 +11,19 @@ import javax.inject.Singleton
 class CategoryRepository @Inject constructor(
     private val categoryDao: CategoryDao
 ) {
-    
+
     fun getAllCategories(): Flow<List<Category>> {
         return categoryDao.getAllCategories()
     }
-    
+
     fun getCategoriesByType(type: TransactionType): Flow<List<Category>> {
         return categoryDao.getCategoriesByType(type)
     }
-    
+
     suspend fun getCategoryById(id: Long): Category? {
         return categoryDao.getCategoryById(id)
     }
-    
+
     suspend fun insertCategory(category: Category): Long {
         return categoryDao.insertCategory(category)
     }

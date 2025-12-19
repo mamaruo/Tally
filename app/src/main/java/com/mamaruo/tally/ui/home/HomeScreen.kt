@@ -53,7 +53,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -90,7 +90,7 @@ fun HomeScreen(
                 monthlyBalance = uiState.monthlyBalance,
                 modifier = Modifier.padding(16.dp)
             )
-            
+
             // 交易列表
             if (uiState.transactions.isEmpty()) {
                 Box(
@@ -131,7 +131,7 @@ private fun OverviewSection(
             amount = monthlyExpense,
             modifier = Modifier.weight(1f)
         )
-        
+
         // 当月结余
         OverviewCard(
             title = "当月结余",
@@ -192,14 +192,14 @@ private fun TransactionList(
 ) {
     val dateFormatter = DateTimeFormatter.ofPattern("MM/dd EEEE")
     val sortedDates = transactionsByDate.keys.sortedDescending()
-    
+
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         sortedDates.forEach { date ->
             val transactions = transactionsByDate[date] ?: emptyList()
-            
+
             // 日期头部
             item(key = "header_$date") {
                 Text(
@@ -209,7 +209,7 @@ private fun TransactionList(
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
-            
+
             // 该日期的交易
             items(
                 items = transactions,
@@ -231,7 +231,7 @@ private fun TransactionItem(
 ) {
     val transaction = transactionWithCategory.transaction
     val category = transactionWithCategory.category
-    
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -250,9 +250,9 @@ private fun TransactionItem(
                 modifier = Modifier.size(40.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
-            
+
             Spacer(modifier = Modifier.width(12.dp))
-            
+
             // 分类名称和备注
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -270,7 +270,7 @@ private fun TransactionItem(
                     )
                 }
             }
-            
+
             // 金额
             Text(
                 text = if (transaction.type == TransactionType.INCOME) {

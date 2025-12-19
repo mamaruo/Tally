@@ -53,14 +53,14 @@ fun CategoryEditorScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
-    
+
     // 处理保存完成后返回
     LaunchedEffect(uiState.isSaved) {
         if (uiState.isSaved) {
             onNavigateBack()
         }
     }
-    
+
     // 显示错误消息
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let {
@@ -68,7 +68,7 @@ fun CategoryEditorScreen(
             viewModel.clearError()
         }
     }
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -101,7 +101,7 @@ fun CategoryEditorScreen(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-            
+
             // 类型选择
             Text(
                 text = "分类类型",
@@ -129,7 +129,7 @@ fun CategoryEditorScreen(
                     )
                 )
             }
-            
+
             // 图标选择
             Text(
                 text = "选择图标",
@@ -147,9 +147,9 @@ fun CategoryEditorScreen(
                     )
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             // 保存按钮
             Button(
                 onClick = viewModel::save,

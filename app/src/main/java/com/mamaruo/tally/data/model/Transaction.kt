@@ -26,7 +26,7 @@ data class Transaction(
     val id: Long = 0,
     /** 交易类型：收入或支出 */
     val type: TransactionType,
-    /** 金额（以分为单位存储，避免浮点误差） */
+    /** 金额（以分为单位存储） */
     val amountMinor: Long,
     /** 交易日期 */
     val date: LocalDate,

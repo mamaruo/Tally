@@ -6,9 +6,9 @@ import java.text.DecimalFormat
  * 金额格式化工具
  */
 object AmountFormatter {
-    
+
     private val decimalFormat = DecimalFormat("#,##0.00")
-    
+
     /**
      * 将分转换为元并格式化显示
      * @param amountMinor 金额（分）
@@ -24,7 +24,7 @@ object AmountFormatter {
             "¥$formatted"
         }
     }
-    
+
     /**
      * 将用户输入的金额字符串转换为分
      * @param input 用户输入的金额字符串（如 "123.45"）
@@ -39,7 +39,7 @@ object AmountFormatter {
             null
         }
     }
-    
+
     /**
      * 将分转换为元的字符串（用于编辑时显示）
      */

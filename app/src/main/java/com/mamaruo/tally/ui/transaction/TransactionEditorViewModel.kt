@@ -36,7 +36,7 @@ data class TransactionEditorUiState(
     val errorMessage: String? = null
 ) {
     val isValid: Boolean
-        get() = amountText.isNotBlank() && 
+        get() = amountText.isNotBlank() &&
                 AmountFormatter.parseToMinor(amountText) != null &&
                 AmountFormatter.parseToMinor(amountText)!! > 0 &&
                 selectedCategoryId != null
@@ -48,10 +48,10 @@ class TransactionEditorViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    
+
     private val transactionId: Long? = savedStateHandle.get<Long>("transactionId")
         ?.takeIf { it != -1L }
-    
+
     private val _uiState = MutableStateFlow(
         TransactionEditorUiState(
             isEditMode = transactionId != null,
@@ -59,14 +59,14 @@ class TransactionEditorViewModel @Inject constructor(
         )
     )
     val uiState: StateFlow<TransactionEditorUiState> = _uiState.asStateFlow()
-    
+
     init {
         loadCategories()
         if (transactionId != null) {
             loadTransaction(transactionId)
         }
     }
-    
+
     private fun loadCategories() {
         viewModelScope.launch {
             categoryRepository.getCategoriesByType(_uiState.value.type).collect { categories ->
@@ -74,7 +74,7 @@ class TransactionEditorViewModel @Inject constructor(
             }
         }
     }
-    
+
     private fun loadTransaction(id: Long) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
@@ -98,20 +98,20 @@ class TransactionEditorViewModel @Inject constructor(
             }
         }
     }
-    
+
     fun onTypeChanged(type: TransactionType) {
         if (type != _uiState.value.type) {
-            _uiState.update { 
+            _uiState.update {
                 it.copy(
-                    type = type, 
+                    type = type,
                     selectedCategoryId = null,
                     categories = emptyList()
-                ) 
+                )
             }
             refreshCategories()
         }
     }
-    
+
     private fun refreshCategories() {
         viewModelScope.launch {
             categoryRepository.getCategoriesByType(_uiState.value.type).collect { categories ->
@@ -119,7 +119,7 @@ class TransactionEditorViewModel @Inject constructor(
             }
         }
     }
-    
+
     fun onAmountChanged(amount: String) {
         // 只允许输入数字和小数点，最多两位小数
         val filtered = amount.filter { it.isDigit() || it == '.' }
@@ -131,33 +131,33 @@ class TransactionEditorViewModel @Inject constructor(
         }
         _uiState.update { it.copy(amountText = result) }
     }
-    
+
     fun onDateChanged(date: LocalDate) {
         _uiState.update { it.copy(date = date) }
     }
-    
+
     fun onCategorySelected(categoryId: Long) {
         _uiState.update { it.copy(selectedCategoryId = categoryId) }
     }
-    
+
     fun onNoteChanged(note: String) {
         _uiState.update { it.copy(note = note) }
     }
-    
+
     fun save() {
         val state = _uiState.value
         val amountMinor = AmountFormatter.parseToMinor(state.amountText)
-        
+
         if (amountMinor == null || amountMinor <= 0) {
             _uiState.update { it.copy(errorMessage = "请输入有效金额") }
             return
         }
-        
+
         if (state.selectedCategoryId == null) {
             _uiState.update { it.copy(errorMessage = "请选择分类") }
             return
         }
-        
+
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
@@ -169,34 +169,44 @@ class TransactionEditorViewModel @Inject constructor(
                     categoryId = state.selectedCategoryId,
                     note = state.note.takeIf { it.isNotBlank() }
                 )
-                
+
                 if (state.isEditMode && state.transactionId != null) {
                     transactionRepository.updateTransaction(transaction)
                 } else {
                     transactionRepository.insertTransaction(transaction)
                 }
-                
+
                 _uiState.update { it.copy(isLoading = false, isSaved = true) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, errorMessage = "保存失败: ${e.message}") }
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = "保存失败: ${e.message}"
+                    )
+                }
             }
         }
     }
-    
+
     fun delete() {
         val transactionId = _uiState.value.transactionId ?: return
-        
+
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
                 transactionRepository.deleteTransactionById(transactionId)
                 _uiState.update { it.copy(isLoading = false, isDeleted = true) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, errorMessage = "删除失败: ${e.message}") }
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = "删除失败: ${e.message}"
+                    )
+                }
             }
         }
     }
-    
+
     fun clearError() {
         _uiState.update { it.copy(errorMessage = null) }
     }

@@ -32,7 +32,7 @@ fun AppNavHost(
                 }
             )
         }
-        
+
         composable(Screen.AddTransaction.route) {
             TransactionEditorScreen(
                 onNavigateBack = {
@@ -40,7 +40,7 @@ fun AppNavHost(
                 }
             )
         }
-        
+
         composable(
             route = Screen.EditTransaction.route,
             arguments = listOf(
@@ -53,7 +53,7 @@ fun AppNavHost(
                 }
             )
         }
-        
+
         composable(Screen.CategoryManage.route) {
             CategoryManageScreen(
                 onNavigateBack = {
@@ -64,7 +64,7 @@ fun AppNavHost(
                 }
             )
         }
-        
+
         composable(Screen.AddCategory.route) {
             CategoryEditorScreen(
                 onNavigateBack = {

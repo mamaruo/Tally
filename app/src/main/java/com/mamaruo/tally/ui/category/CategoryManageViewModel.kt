@@ -22,7 +22,7 @@ data class CategoryManageUiState(
 class CategoryManageViewModel @Inject constructor(
     categoryRepository: CategoryRepository
 ) : ViewModel() {
-    
+
     val uiState: StateFlow<CategoryManageUiState> = categoryRepository
         .getAllCategories()
         .map { CategoryManageUiState(categories = it) }

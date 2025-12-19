@@ -23,7 +23,7 @@ data class HomeUiState(
 ) {
     /** 当月结余 = 收入 - 支出 */
     val monthlyBalance: Long get() = monthlyIncome - monthlyExpense
-    
+
     /** 按日期分组的交易 */
     val transactionsByDate: Map<LocalDate, List<TransactionWithCategory>>
         get() = transactions.groupBy { it.transaction.date }
@@ -33,7 +33,7 @@ data class HomeUiState(
 class HomeViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository
 ) : ViewModel() {
-    
+
     val uiState: StateFlow<HomeUiState> = combine(
         transactionRepository.getCurrentMonthExpense(),
         transactionRepository.getCurrentMonthIncome(),
